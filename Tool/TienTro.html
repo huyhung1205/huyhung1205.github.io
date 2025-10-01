@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tính tiền trọ</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            margin: 24px;
+            color: #3f1d2b;
+            background:
+                radial-gradient(1200px 600px at 10% -10%, rgba(236, 72, 153, .12), transparent 60%),
+                radial-gradient(1000px 500px at 110% 0%, rgba(244, 114, 182, .15), transparent 60%),
+                linear-gradient(180deg, #fff5f8 0%, #fff 60%);
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffffcc;
+            border: 1px solid #ffd1e4;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(236, 72, 153, .12);
+            backdrop-filter: blur(6px);
+            padding: 24px;
+        }
+
+        h1 {
+            font-size: 26px;
+            margin: 0 0 10px;
+            color: #db2777;
+            letter-spacing: 0.2px;
+        }
+
+        p.subtitle {
+            margin: 0 0 20px;
+            color: #8d3b64;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 12px;
+        }
+
+        .card {
+            grid-column: span 12;
+            border: 1px solid #ffe0ec;
+            border-radius: 14px;
+            padding: 16px;
+            background: linear-gradient(180deg, #fff, #fff9fb);
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .half {
+                grid-column: span 6;
+            }
+
+            .third {
+                grid-column: span 4;
+            }
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .row>.field {
+            min-width: 0;
+        }
+
+        @media (min-width: 520px) {
+            .row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ffc2db;
+            border-radius: 10px;
+            background: #fff;
+            font-size: 14px;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, .15);
+        }
+
+        .muted {
+            color: #a04a76;
+            font-size: 13px;
+        }
+
+        .result {
+            font-size: 16px;
+        }
+
+        .result h2 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #be185d;
+        }
+
+        .result .line {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #ffd0e6;
+        }
+
+        .result .line:last-child {
+            border-bottom: none;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, #fff0f6, #ffe4ef);
+            border: 1px solid #ffc2db;
+            border-radius: 12px;
+            padding: 16px 18px;
+            font-weight: 800;
+            font-size: 18px;
+            color: #9d174d;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .small {
+            font-size: 12px;
+            color: #b25988;
+        }
+
+
+        .money {
+            font-variant-numeric: tabular-nums;
+            color: #b91c1c;
+        }
+
+        .footer {
+            margin-top: 10px;
+            color: #b86a94;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        button {
+            padding: 10px 14px;
+            border: none;
+            background: linear-gradient(180deg, #f472b6, #ec4899);
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(236, 72, 153, .35);
+            transition: transform .08s ease, filter .15s ease;
+        }
+
+        button:hover {
+            filter: brightness(1.05);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button.secondary {
+            background: linear-gradient(180deg, #fbcfe8, #f9a8d4);
+            color: #6b123d;
+            box-shadow: none;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="center">Tính tiền trọ</h1>
+        <p class="subtitle">Thiết kế cho Tiểu Điềm</p>
+
+        <div class="grid">
+            <div class="card half">
+                <h2 style="margin:0 0 12px; font-size:18px;">Điện</h2>
+                <div class="row">
+                    <div class="field">
+                        <label>Số cũ (kWh)</label>
+                        <input type="number" id="dienCu" min="0" step="1" placeholder="">
+                    </div>
+                    <div class="field">
+                        <label>Số mới (kWh)</label>
+                        <input type="number" id="dienMoi" min="0" step="1" placeholder="">
+                    </div>
+                    <div class="field">
+                        <label>Đơn giá (k₫/kWh)</label>
+                        <input type="number" id="giaDien" min="0" step="1" placeholder="3.5k">
+                    </div>
+                    <div class="field right">
+                        <div class="muted">Số tiêu thụ</div>
+                        <div class=""><strong id="dienTieuThu">0</strong><span class="small">kWh</span></div>
+                    </div>
+                </div>
+                <div class="muted" style="margin-top:8px;">Công thức: (Số mới − Số cũ) × Đơn giá</div>
+            </div>
+
+            <div class="card half">
+                <h2 style="margin:0 0 12px; font-size:18px;">Nước</h2>
+                <div class="row">
+                    <div class="field">
+                        <label>Số cũ (m³)</label>
+                        <input type="number" id="nuocCu" min="0" step="1" placeholder="">
+                    </div>
+                    <div class="field">
+                        <label>Số mới (m³)</label>
+                        <input type="number" id="nuocMoi" min="0" step="1" placeholder="">
+                    </div>
+                    <div class="field">
+                        <label>Đơn giá (k₫/m³)</label>
+                        <input type="number" id="giaNuoc" min="0" step="1" placeholder="8k">
+                    </div>
+                    <div class="field right">
+                        <div class="muted">Số tiêu thụ</div>
+                        <div class=""><strong id="nuocTieuThu">0</strong><span class="small">m³</span></div>
+                    </div>
+                </div>
+                <div class="muted" style="margin-top:8px;">Công thức: (Số mới − Số cũ) × Đơn giá</div>
+            </div>
+
+            <div class="card half">
+                <h2 style="margin:0 0 12px; font-size:18px;">Phí cố định</h2>
+                <div class="row">
+                    <div class="field">
+                        <label>Tiền phòng (k₫)</label>
+                        <input type="number" id="tienPhong" min="0" step="100" placeholder="vd: 1500k">
+                    </div>
+                    <div class="field">
+                        <label>Tiền wifi (k₫)</label>
+                        <input type="number" id="tienWifi" min="0" step="10" placeholder="vd: 50k">
+                    </div>
+                    <div class="field">
+                        <label>Khác (k₫)</label>
+                        <input type="number" id="tienKhac" min="0" step="10" placeholder="tùy chọn">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card half result">
+                <h2>Kết quả</h2>
+                <div class="line"><span>Tiền điện</span><strong class="money" id="tienDien">0 ₫</strong></div>
+                <div class="line"><span>Tiền nước</span><strong class="money" id="tienNuoc">0 ₫</strong></div>
+                <div class="line"><span>Tiền phòng</span><strong class="money" id="outPhong">0 ₫</strong></div>
+                <div class="line"><span>Tiền wifi</span><strong class="money" id="outWifi">0 ₫</strong></div>
+                <div class="line"><span>Khác</span><strong class="money" id="outKhac">0 ₫</strong></div>
+                <div class="total" style="margin-top:10px;">
+                    <span>TỔNG CỘNG</span>
+                    <span class="money" id="tongCong">0 ₫</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <button id="btnReset" class="secondary" type="button">Làm mới</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toNumber(value, fallback) {
+            if (value === null || value === undefined || value === "") return fallback;
+            var n = Number(value);
+            return isNaN(n) ? fallback : n;
+        }
+
+        function vnd(amount) {
+            var value = Math.max(0, Number(amount));
+            try {
+                return new Intl.NumberFormat('vi-VN', {
+                    useGrouping: true,
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 10
+                }).format(value) + ' k₫';
+            } catch (e) {
+                return String(value) + ' k₫';
+            }
+        }
+
+        function clampNonNegative(n) { return Math.max(0, n); }
+
+        function compute() {
+            var dienCu = toNumber(document.getElementById('dienCu').value, 0);
+            var dienMoi = toNumber(document.getElementById('dienMoi').value, 0);
+            var giaDien = toNumber(document.getElementById('giaDien').value, 3.5);
+            var nuocCu = toNumber(document.getElementById('nuocCu').value, 0);
+            var nuocMoi = toNumber(document.getElementById('nuocMoi').value, 0);
+            var giaNuoc = toNumber(document.getElementById('giaNuoc').value, 8);
+            var tienPhong = toNumber(document.getElementById('tienPhong').value, 0);
+            var tienWifi = toNumber(document.getElementById('tienWifi').value, 0);
+            var tienKhac = toNumber(document.getElementById('tienKhac').value, 0);
+
+            var dienTieuThu = clampNonNegative(dienMoi - dienCu);
+            var nuocTieuThu = clampNonNegative(nuocMoi - nuocCu);
+
+            var tienDien = clampNonNegative(dienTieuThu * giaDien);
+            var tienNuoc = clampNonNegative(nuocTieuThu * giaNuoc);
+
+            document.getElementById('dienTieuThu').textContent = dienTieuThu;
+            document.getElementById('nuocTieuThu').textContent = nuocTieuThu;
+
+            document.getElementById('tienDien').textContent = vnd(tienDien);
+            document.getElementById('tienNuoc').textContent = vnd(tienNuoc);
+            document.getElementById('outPhong').textContent = vnd(tienPhong);
+            document.getElementById('outWifi').textContent = vnd(tienWifi);
+            document.getElementById('outKhac').textContent = vnd(tienKhac);
+
+            var tong = tienDien + tienNuoc + tienPhong + tienWifi + tienKhac;
+            document.getElementById('tongCong').textContent = vnd(tong);
+        }
+
+        function resetAll() {
+            var ids = ['dienCu', 'dienMoi', 'giaDien', 'nuocCu', 'nuocMoi', 'giaNuoc', 'tienPhong', 'tienWifi', 'tienKhac'];
+            ids.forEach(function (id) { document.getElementById(id).value = ''; });
+            compute();
+        }
+
+        function bind() {
+            var inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(function (el) { el.addEventListener('input', compute); });
+            document.getElementById('btnReset').addEventListener('click', resetAll);
+            compute();
+        }
+
+        document.addEventListener('DOMContentLoaded', bind);
+    </script>
+</body>
+
+</html>
