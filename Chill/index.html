@@ -2,189 +2,190 @@
 <html lang="vi">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Chill Menu</title>
-	<style>
-		:root {
-			--bg-1: #0f172a;
-			--bg-2: #111827;
-			--card: rgba(15, 23, 42, 0.72);
-			--line: rgba(255, 255, 255, 0.12);
-			--text: #f8fafc;
-			--muted: #cbd5e1;
-			--pink: #ff6b9a;
-			--cyan: #67d7d1;
-			--gold: #f8c66c;
-		}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chill Menu</title>
+    <style>
+        :root {
+            --bg-1: #0f172a;
+            --bg-2: #111827;
+            --card: rgba(15, 23, 42, 0.72);
+            --line: rgba(255, 255, 255, 0.12);
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --pink: #ff6b9a;
+            --cyan: #67d7d1;
+            --gold: #f8c66c;
+        }
 
-		* {
-			box-sizing: border-box;
-		}
+        * {
+            box-sizing: border-box;
+        }
 
-		html,
-		body {
-			margin: 0;
-			min-height: 100%;
-		}
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
 
-		body {
-			font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-			color: var(--text);
-			background:
-				radial-gradient(circle at top left, rgba(103, 215, 209, 0.22), transparent 32%),
-				radial-gradient(circle at bottom right, rgba(255, 107, 154, 0.2), transparent 30%),
-				linear-gradient(135deg, var(--bg-1), var(--bg-2));
-			display: grid;
-			place-items: center;
-			overflow: hidden;
-		}
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(103, 215, 209, 0.22), transparent 32%),
+                radial-gradient(circle at bottom right, rgba(255, 107, 154, 0.2), transparent 30%),
+                linear-gradient(135deg, var(--bg-1), var(--bg-2));
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
 
-		body::before {
-			content: "";
-			position: fixed;
-			inset: 0;
-			background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-			background-size: 24px 24px;
-			opacity: 0.25;
-			pointer-events: none;
-		}
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.25;
+            pointer-events: none;
+        }
 
-		.panel {
-			position: relative;
-			width: min(92vw, 720px);
-			padding: clamp(28px, 5vw, 48px);
-			border: 1px solid var(--line);
-			border-radius: 28px;
-			background: var(--card);
-			backdrop-filter: blur(18px);
-			box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
-		}
+        .panel {
+            position: relative;
+            width: min(92vw, 720px);
+            padding: clamp(28px, 5vw, 48px);
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: var(--card);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+        }
 
-		.title {
-			margin: 0 0 10px;
-			font-size: clamp(2rem, 5vw, 3.5rem);
-			letter-spacing: 0.02em;
-		}
+        .title {
+            margin: 0 0 10px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            letter-spacing: 0.02em;
+        }
 
-		.subtitle {
-			margin: 0 0 28px;
-			color: var(--muted);
-			line-height: 1.6;
-			max-width: 52ch;
-		}
+        .subtitle {
+            margin: 0 0 28px;
+            color: var(--muted);
+            line-height: 1.6;
+            max-width: 52ch;
+        }
 
-		.grid {
-			display: grid;
-			gap: 16px;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
+        .grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
 
-		.nav-link {
-			position: relative;
-			display: flex;
-			flex-direction: column;
-			gap: 8px;
-			padding: 18px;
-			border-radius: 20px;
-			text-decoration: none;
-			color: var(--text);
-			border: 1px solid var(--line);
-			background: rgba(255, 255, 255, 0.04);
-			min-height: 140px;
-			overflow: hidden;
-			transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
-		}
+        .nav-link {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.04);
+            min-height: 140px;
+            overflow: hidden;
+            transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+        }
 
-		.nav-link:hover {
-			transform: translateY(-4px);
-			border-color: rgba(255, 255, 255, 0.24);
-			background: rgba(255, 255, 255, 0.08);
-		}
+        .nav-link:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.08);
+        }
 
-		.nav-link::after {
-			content: "";
-			position: absolute;
-			inset: auto -20px -20px auto;
-			width: 96px;
-			height: 96px;
-			border-radius: 50%;
-			opacity: 0.2;
-			filter: blur(0);
-		}
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            inset: auto -20px -20px auto;
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(0);
+        }
 
-		.nav-link.planet::after {
-			background: radial-gradient(circle, var(--gold), transparent 70%);
-		}
+        .nav-link.planet::after {
+            background: radial-gradient(circle, var(--gold), transparent 70%);
+        }
 
-		.nav-link.rainlove::after {
-			background: radial-gradient(circle, var(--pink), transparent 70%);
-		}
+        .nav-link.rainlove::after {
+            background: radial-gradient(circle, var(--pink), transparent 70%);
+        }
 
-		.nav-link.sky::after {
-			background: radial-gradient(circle, var(--cyan), transparent 70%);
-		}
+        .nav-link.sky::after {
+            background: radial-gradient(circle, var(--cyan), transparent 70%);
+        }
 
-		.badge {
-			width: fit-content;
-			padding: 6px 10px;
-			border-radius: 999px;
-			font-size: 0.78rem;
-			letter-spacing: 0.08em;
-			text-transform: uppercase;
-			background: rgba(255, 255, 255, 0.08);
-			border: 1px solid rgba(255, 255, 255, 0.12);
-		}
+        .badge {
+            width: fit-content;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
 
-		.nav-title {
-			margin: 0;
-			font-size: 1.2rem;
-		}
+        .nav-title {
+            margin: 0;
+            font-size: 1.2rem;
+        }
 
-		.nav-desc {
-			margin: 0;
-			color: var(--muted);
-			line-height: 1.5;
-			font-size: 0.95rem;
-		}
+        .nav-desc {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
 
-		@media (max-width: 760px) {
-			.grid {
-				grid-template-columns: 1fr;
-			}
+        @media (max-width: 760px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
 
-			.panel {
-				border-radius: 22px;
-			}
-		}
-	</style>
+            .panel {
+                border-radius: 22px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-	<main class="panel">
-		<h1 class="title">Chill</h1>
-		<p class="subtitle">Chọn một trang bên dưới để mở hiệu ứng tương ứng. Mỗi nút sẽ dẫn đến một không gian khác nhau trong mục Chill.</p>
+    <main class="panel">
+        <h1 class="title">Chill</h1>
+        <p class="subtitle">Chọn một trang bên dưới để mở hiệu ứng tương ứng. Mỗi nút sẽ dẫn đến một không gian khác
+            nhau trong mục Chill.</p>
 
-		<section class="grid" aria-label="Navigation to Chill pages">
-			<a class="nav-link planet" href="Planet/index.html" target="_blank" rel="noopener noreferrer">
-				<span class="badge">01</span>
-				<h2 class="nav-title">Planet</h2>
-				<p class="nav-desc">Không gian hành tinh với phong cách riêng.</p>
-			</a>
+        <section class="grid" aria-label="Navigation to Chill pages">
+            <a class="nav-link planet" href="Planet/index.html" target="_blank" rel="noopener noreferrer">
+                <span class="badge">01</span>
+                <h2 class="nav-title">Planet</h2>
+                <p class="nav-desc">Không gian hành tinh với phong cách riêng.</p>
+            </a>
 
-			<a class="nav-link rainlove" href="Rainlove/index.html" target="_blank" rel="noopener noreferrer">
-				<span class="badge">02</span>
-				<h2 class="nav-title">Rainlove</h2>
-				<p class="nav-desc">Hiệu ứng mưa và chữ tình cảm.</p>
-			</a>
+            <a class="nav-link rainlove" href="Rainlove/index.html" target="_blank" rel="noopener noreferrer">
+                <span class="badge">02</span>
+                <h2 class="nav-title">Rainlove</h2>
+                <p class="nav-desc">Hiệu ứng mưa và chữ tình cảm.</p>
+            </a>
 
-			<a class="nav-link sky" href="Sky/index.html" target="_blank" rel="noopener noreferrer">
-				<span class="badge">03</span>
-				<h2 class="nav-title">Sky</h2>
-				<p class="nav-desc">Bầu trời nhẹ nhàng và hiệu ứng bay.</p>
-			</a>
-		</section>
-	</main>
+            <a class="nav-link sky" href="Sky/index.html" target="_blank" rel="noopener noreferrer">
+                <span class="badge">03</span>
+                <h2 class="nav-title">Sky</h2>
+                <p class="nav-desc">Bầu trời nhẹ nhàng và hiệu ứng bay.</p>
+            </a>
+        </section>
+    </main>
 </body>
 
 </html>
