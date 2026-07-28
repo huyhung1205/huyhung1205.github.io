@@ -4,7 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Thẻ E-Paper - v42</title>
+    <title>Thẻ E-Paper</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='4' fill='%234f4ce0'/%3E%3Crect x='5' y='5' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='13' y='5' width='6' height='6' fill='%23b7b1ff'/%3E%3Crect x='5' y='13' width='6' height='6' fill='%23b7b1ff'/%3E%3Crect x='13' y='13' width='6' height='6' fill='%23ffffff'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         /* Base style reset */
         * {
@@ -16,8 +20,8 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
+            color: #1f2141;
+            background-color: #e8ecff;
             padding: 10px;
             max-width: 100%;
             overflow-x: hidden;
@@ -131,7 +135,7 @@
             width: 100%;
             padding: 12px;
             margin: 8px 0;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 8px;
             font-size: 16px;
             background-color: white;
@@ -201,7 +205,7 @@
             height: 200px;
             overflow-y: auto;
             background-color: #f9f9f9;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 5px;
             padding: 10px;
             font-family: monospace;
@@ -238,14 +242,14 @@
             width: 100%;
             height: auto;
             display: inline-block;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 8px;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .canvas-container {
-            background: white;
+            background: #fbfbff;
             width: auto;
             border: 2px solid #494747;
             min-width: auto;
@@ -298,19 +302,19 @@
 
         /* Special button styles */
         #generateBtn {
-            background-color: #28a745;
+            background-color: #6f63ff;
         }
 
         #generateBtn:hover {
-            background-color: #218838;
+            background-color: #5d55e5;
         }
 
         .copy-btn {
-            background-color: #6c757d;
+            background-color: #7f69ff;
         }
 
         .copy-btn:hover {
-            background-color: #5a6268;
+            background-color: #6e5cf9;
         }
 
         /* Element designer module styles */
@@ -324,7 +328,7 @@
 
         .control-panel {
             width: 280px;
-            background: white;
+            background: #fbfbff;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -341,9 +345,9 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            background: white;
+            background: #fbfbff;
             padding: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
@@ -351,7 +355,7 @@
         #tab-editor .canvas-size-label {
             font-size: 14px;
             font-weight: 600;
-            color: #333;
+            color: #2f3361;
             letter-spacing: 0.2px;
         }
 
@@ -361,7 +365,7 @@
             max-width: 800px;
             min-width: 0;
             height: auto;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 10px;
             background-color: #ffffff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -379,7 +383,7 @@
         .control-group {
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #d7dbfc;
         }
 
         .control-group:last-child {
@@ -389,7 +393,7 @@
         .control-group h3 {
             font-size: 16px;
             margin-bottom: 8px;
-            color: #333;
+            color: #2f3361;
         }
     </style>
 
@@ -403,7 +407,7 @@
 
         body {
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: #eef1ff;
         }
 
         .editor-container {
@@ -415,7 +419,7 @@
 
         .control-panel {
             width: 280px;
-            background: white;
+            background: #fbfbff;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -424,7 +428,7 @@
         }
 
         .canvas-container {
-            background: white;
+            background: #fbfbff;
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -433,7 +437,7 @@
         .control-group {
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #d7dbfc;
         }
 
         .control-group:last-child {
@@ -443,7 +447,7 @@
         .control-group h3 {
             font-size: 16px;
             margin-bottom: 8px;
-            color: #333;
+            color: #2f3361;
         }
 
         button,
@@ -453,7 +457,7 @@
             width: 100%;
             padding: 8px;
             margin-bottom: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 4px;
             font-size: 14px;
         }
@@ -464,7 +468,7 @@
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #5b4bdb;
             color: white;
             border: none;
             cursor: pointer;
@@ -472,23 +476,23 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #4939c4;
         }
 
         button.secondary {
-            background-color: #2196F3;
+            background-color: #7f69ff;
         }
 
         button.secondary:hover {
-            background-color: #1976D2;
+            background-color: #6e5cf9;
         }
 
         button.danger {
-            background-color: #f44336;
+            background-color: #9b59ff;
         }
 
         button.danger:hover {
-            background-color: #d32f2f;
+            background-color: #7f4fff;
         }
 
         .color-palette {
@@ -512,7 +516,7 @@
         }
 
         .color-option.selected {
-            border-color: #333;
+            border-color: #5b4bdb;
             transform: scale(1.1);
         }
 
@@ -551,7 +555,7 @@
         }
 
         .template-item.selected {
-            border-color: #4CAF50;
+            border-color: #5b4bdb;
         }
 
         .template-item img {
@@ -717,7 +721,7 @@
         .bg-color-picker {
             width: 40px;
             height: 30px;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 4px;
             cursor: pointer;
             padding: 2px;
@@ -782,7 +786,7 @@
             gap: 12px 16px;
             width: 100%;
             padding: 12px 14px;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 8px;
             background: #fff;
         }
@@ -827,7 +831,7 @@
             align-items: center;
             gap: 14px;
             padding: 12px 14px;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 8px;
             background: #fff;
         }
@@ -932,7 +936,7 @@
             gap: 12px 16px;
             padding: 12px 14px;
             margin-bottom: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 8px;
             background: #fff;
         }
@@ -987,7 +991,7 @@
             width: 100%;
             padding: 12px 14px;
             margin-bottom: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid #d7dbfc;
             border-radius: 8px;
             background: #fff;
         }
@@ -1028,6 +1032,149 @@
             #tab-settings .button-group {
                 grid-template-columns: 1fr;
             }
+        }
+    </style>
+    <style>
+        :root {
+            --page-bg: #e8ecff;
+            --surface-bg: #f4f6ff;
+            --card-bg: #ffffff;
+            --primary: #5b4bdb;
+            --primary-dark: #4939c4;
+            --primary-soft: #6f63ff;
+            --accent: #7f69ff;
+            --text-color: #1f2141;
+            --muted-color: #5f637d;
+            --border-color: #d7dbfc;
+            --shadow-color: rgba(91, 75, 219, 0.12);
+        }
+
+        body {
+            color: var(--text-color);
+            background: radial-gradient(circle at top, #eef3ff 0%, #e4e9ff 45%, #f7f8ff 100%);
+        }
+
+        .tab-buttons {
+            background-color: var(--surface-bg);
+            box-shadow: 0 6px 24px rgba(91, 75, 219, 0.08);
+        }
+
+        .tab-button {
+            color: var(--text-color);
+        }
+
+        .tab-button:hover {
+            background-color: rgba(91, 75, 219, 0.09);
+        }
+
+        .tab-button.active {
+            background-color: var(--card-bg);
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-content,
+        .input-section,
+        .preview-section,
+        .control-panel,
+        .canvas-container,
+        .image-adjustments,
+        .date-picker-container,
+        .button-group,
+        .editor-container,
+        .template-item,
+        #canvas,
+        #previewCanvas,
+        #tab-image .image-control-row,
+        #tab-image .image-threshold-row,
+        #tab-settings .button-group,
+        #tab-countdown .date-picker-container,
+        #tab-countdown .input-group {
+            background-color: #fbfbff;
+            border-color: var(--border-color);
+        }
+
+        input,
+        select,
+        textarea {
+            border-color: var(--border-color);
+            background-color: #f7f8ff;
+            color: var(--text-color);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 10px 22px var(--shadow-color);
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        #generateBtn {
+            background-color: #6f63ff;
+        }
+
+        #generateBtn:hover {
+            background-color: #5d55e5;
+        }
+
+        .copy-btn {
+            background-color: #7f69ff;
+        }
+
+        .copy-btn:hover {
+            background-color: #6e5cf9;
+        }
+
+        button.secondary {
+            background-color: #6f63ff;
+        }
+
+        button.secondary:hover {
+            background-color: #5d55e5;
+        }
+
+        button.danger {
+            background-color: #9b59ff;
+        }
+
+        button.danger:hover {
+            background-color: #7f4fff;
+        }
+
+        .section-title,
+        .control-group h3,
+        .template-item.selected,
+        label,
+        .btn-action {
+            color: var(--text-color);
+        }
+
+        .template-item.selected {
+            border-color: var(--primary);
+        }
+
+        .log-box #log {
+            background-color: #eef1ff;
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .button-group button {
+            min-height: 44px;
+        }
+
+        .bg-color-selector,
+        .rotate-controls,
+        .position-controls,
+        .size-inputs,
+        .text-style,
+        .image-control-actions,
+        .preview-container,
+        .template-preview {
+            gap: 10px;
         }
     </style>
 </head>
@@ -1158,7 +1305,7 @@
                 <div class="input-group">
                     <label>Giao diện đếm ngược</label>
                     <div
-                        style="padding: 0.9rem 1rem; border-radius: 14px; background: #f3f4f6; color: #374151; font-weight: 600;">
+                        style="padding: 0.9rem 1rem; border-radius: 14px; background: #e9ebff; color: #2f3361; font-weight: 600;">
                         Đồng hồ đếm ngược</div>
                 </div>
                 <div class="input-group" style="display:none">
@@ -1185,7 +1332,7 @@
                         <input type="range" id="fontSizeSlider" min="50" max="150" value="100">
                         <span class="slider-value" id="fontSizeValue">100%</span>
                     </div>
-                    <small style="color: #7f8c8d;">Điều chỉnh tỷ lệ hiển thị phông chữ. Quá lớn có thể làm cắt ký
+                    <small style="color: #5f637d;">Điều chỉnh tỷ lệ hiển thị phông chữ. Quá lớn có thể làm cắt ký
                         tự</small>
                 </div>
 
@@ -1550,32 +1697,32 @@
 
                     <div class="template-item" data-type="bg_image1" data-image-url=".bg_image1.jpg">
                         <div
-                            style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;">
+                            style="width:100%;height:100%;background:#eef1ff;display:flex;align-items:center;justify-content:center;font-size:10px;color:#4d4f6e;">
                             Random</div>
                     </div>
                     <div class="template-item" data-type="bg_image2" data-image-url="./bg1.jpg">
                         <div
-                            style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;">
+                            style="width:100%;height:100%;background:#eef1ff;display:flex;align-items:center;justify-content:center;font-size:10px;color:#4d4f6e;">
                             Namecard</div>
                     </div>
                     <div class="template-item" data-type="bg_image3" data-image-url="./images/bg3.jpg">
                         <div
-                            style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;">
+                            style="width:100%;height:100%;background:#eef1ff;display:flex;align-items:center;justify-content:center;font-size:10px;color:#4d4f6e;">
                             NoteMemo</div>
                     </div>
                     <div class="template-item" data-type="bg_image4" data-image-url="./images/bg4.jpg">
                         <div
-                            style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;">
+                            style="width:100%;height:100%;background:#eef1ff;display:flex;align-items:center;justify-content:center;font-size:10px;color:#4d4f6e;">
                             ClassSchedule</div>
                     </div>
                     <div class="template-item" data-type="bg_image5" data-image-url="./images/bg5.jpg">
                         <div
-                            style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;">
+                            style="width:100%;height:100%;background:#eef1ff;display:flex;align-items:center;justify-content:center;font-size:10px;color:#4d4f6e;">
                             Items</div>
                     </div>
                     <div class="template-item" data-type="bg_image6" data-image-url="./images/bg5.jpg">
                         <div
-                            style="width:100%;height:100%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;">
+                            style="width:100%;height:100%;background:#eef1ff;display:flex;align-items:center;justify-content:center;font-size:10px;color:#4d4f6e;">
                             WIFI</div>
                     </div>
                 </div>
@@ -3601,7 +3748,7 @@
                 }
 
                 if (grid) {
-                    ctx.strokeStyle = invert ? '#333333' : '#dddddd';
+                    ctx.strokeStyle = invert ? '#2f3361' : '#d7dbfc';
                     for (let x = 0; x <= charCount * gridSize; x++) {
                         const lineX = x * previewScale;
                         ctx.beginPath();
@@ -3866,9 +4013,9 @@
                     if (state.builtInBgImages && state.builtInBgImages[state.selectedBgTemplate]) {
                         ctx.drawImage(state.builtInBgImages[state.selectedBgTemplate], 0, 0, canvas.width, canvas.height);
                     } else {
-                        ctx.fillStyle = '#f5f5f5';
+                        ctx.fillStyle = '#eef1ff';
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        ctx.fillStyle = '#666';
+                        ctx.fillStyle = '#4d4f6e';
                         ctx.font = '14px Arial';
                         ctx.textAlign = 'center';
                         ctx.fillText('Loading background image...', canvas.width / 2, canvas.height / 2);
@@ -4126,7 +4273,7 @@
                         ctx.rotate(element.rotation * Math.PI / 180);
                         ctx.translate(-centerX, -centerY);
                     }
-                    ctx.strokeStyle = '#4CAF50';
+                    ctx.strokeStyle = '#5b4bdb';
                     ctx.lineWidth = 2;
                     if (element.type === 'rect' || element.type === 'image') {
                         ctx.strokeRect(element.x, element.y, element.width, element.height);
@@ -4144,7 +4291,7 @@
                         ctx.closePath();
                         ctx.stroke();
                     } else if (element.type === 'line') {
-                        ctx.strokeStyle = '#4CAF50';
+                        ctx.strokeStyle = '#5b4bdb';
                         ctx.lineWidth = 1;
                         ctx.setLineDash([5, 3]);
                         ctx.beginPath();
@@ -4582,7 +4729,7 @@
                     previewItem.className = 'template-item selected';
                     previewItem.dataset.type = qrcodeId;
                     previewItem.innerHTML = `
-                        <img src="${qrImg.src}" alt="Mã QR" style="object-fit: contain; background: white;">
+                        <img src="${qrImg.src}" alt="Mã QR" style="object-fit: contain; background: #fbfbff;">
                         <div class="preview-remove" onclick="removeUploadedIcon('${qrcodeId}', this)">x</div>
                     `;
                     const iconItems = imageTemplates.querySelectorAll('.template-item');
@@ -4742,9 +4889,9 @@
                         state.textStyles.bold = element.bold;
                         state.textStyles.italic = element.italic;
                         state.textStyles.underline = element.underline;
-                        textBold.style.backgroundColor = element.bold ? '#2e7d32' : '#4CAF50';
-                        textItalic.style.backgroundColor = element.italic ? '#2e7d32' : '#4CAF50';
-                        textUnderline.style.backgroundColor = element.underline ? '#2e7d32' : '#4CAF50';
+                        textBold.style.backgroundColor = element.bold ? '#7f69ff' : '#5b4bdb';
+                        textItalic.style.backgroundColor = element.italic ? '#7f69ff' : '#5b4bdb';
+                        textUnderline.style.backgroundColor = element.underline ? '#7f69ff' : '#5b4bdb';
                     } else if (element.type === 'star') {
                         textControls.style.display = 'none';
                         rotateControls.style.display = 'block';
@@ -5073,9 +5220,9 @@
                             state.textStyles.bold = element.bold;
                             state.textStyles.italic = element.italic;
                             state.textStyles.underline = element.underline;
-                            textBold.style.backgroundColor = element.bold ? '#2e7d32' : '#4CAF50';
-                            textItalic.style.backgroundColor = element.italic ? '#2e7d32' : '#4CAF50';
-                            textUnderline.style.backgroundColor = element.underline ? '#2e7d32' : '#4CAF50';
+                            textBold.style.backgroundColor = element.bold ? '#7f69ff' : '#5b4bdb';
+                            textItalic.style.backgroundColor = element.italic ? '#7f69ff' : '#5b4bdb';
+                            textUnderline.style.backgroundColor = element.underline ? '#7f69ff' : '#5b4bdb';
                         } else if (element.type === 'star') {
                             textControls.style.display = 'none';
                             rotateControls.style.display = 'block';
@@ -5109,15 +5256,15 @@
             });
             textBold.addEventListener('click', () => {
                 state.textStyles.bold = !state.textStyles.bold;
-                textBold.style.backgroundColor = state.textStyles.bold ? '#2e7d32' : '#4CAF50';
+                textBold.style.backgroundColor = state.textStyles.bold ? '#7f69ff' : '#5b4bdb';
             });
             textItalic.addEventListener('click', () => {
                 state.textStyles.italic = !state.textStyles.italic;
-                textItalic.style.backgroundColor = state.textStyles.italic ? '#2e7d32' : '#4CAF50';
+                textItalic.style.backgroundColor = state.textStyles.italic ? '#7f69ff' : '#5b4bdb';
             });
             textUnderline.addEventListener('click', () => {
                 state.textStyles.underline = !state.textStyles.underline;
-                textUnderline.style.backgroundColor = state.textStyles.underline ? '#2e7d32' : '#4CAF50';
+                textUnderline.style.backgroundColor = state.textStyles.underline ? '#7f69ff' : '#5b4bdb';
             });
             updateTextBtn.addEventListener('click', updateSelectedText);
             rotationInput.addEventListener('input', () => {
