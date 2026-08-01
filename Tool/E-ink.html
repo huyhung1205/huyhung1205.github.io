@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Thẻ E-Paper</title>
+    <title>DA14585</title>
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3' y='3' width='18' height='18' rx='4' fill='%234f4ce0'/%3E%3Crect x='5' y='5' width='6' height='6' fill='%23ffffff'/%3E%3Crect x='13' y='5' width='6' height='6' fill='%23b7b1ff'/%3E%3Crect x='5' y='13' width='6' height='6' fill='%23b7b1ff'/%3E%3Crect x='13' y='13' width='6' height='6' fill='%23ffffff'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -1204,8 +1204,19 @@
 
 
         <div class="button-group">
+            <button type="button" onclick="checkDfuSupport()">Kiểm tra DFU/OTA</button>
+            <button type="button" onclick="checkDeviceNameSupport()">Kiểm tra tên thiết bị</button>
+        </div>
+
+        <div class="button-group">
             <button id="time-setter" onclick="setTime()">Đặt giờ: </button> <br>
             <input type="number" max="24" min="0" id="hour-offset" value="0" style="width: 40px;">
+        </div>
+
+        <div class="button-group">
+            <input type="text" id="custom-cmd-input" placeholder="Nhập mã hex, ví dụ: E3" style="width: 160px;"
+                onkeydown="if (event.key === 'Enter') sendCustomCommand()">
+            <button type="button" onclick="sendCustomCommand()">Debug CMD</button>
         </div>
 
         <div class="button-group">
@@ -1213,10 +1224,13 @@
                 sang chế độ đồng hồ</button>
             <button type="button" onclick="switchDisplayMode(1)" title="Nhấn để chuyển sang chế độ lịch">Chuyển sang
                 chế độ lịch</button>
+            <button type="button" onclick="setri('e103')" title="Nhấn để chuyển sang chế độ đếm ngược">Chuyển sang chế
+                độ đếm
+                ngược</button>
 
-            <button type="button" onclick="setri('e4')" title="Nhấn để đổi màu đồng hồ">Đổi màu đồng hồ</button>
             <button type="button" onclick="switchDisplayMode(0)"
                 title="DA14585 khôi phục chế độ ảnh; nRF52 mở Truyền ảnh để tải ảnh mới">Chuyển sang chế độ ảnh</button>
+
         </div>
 
         <div class="button-group">
@@ -1352,11 +1366,6 @@
                 </div>
 
             </div>
-
-
-
-
-
 
 
         </div>
@@ -1523,6 +1532,14 @@
                         <input type="range" id="rotation-input" min="0" max="360" value="0" step="1">
                         <span id="rotation-value">0 độ</span>
                         <button id="apply-rotation" style="display: none;">Áp dụng</button>
+                    </div>
+                </div>
+
+                <div class="control-group" id="editor-scale-controls">
+                    <h3>Tỉ lệ phần tử</h3>
+                    <div class="rotate-controls">
+                        <input type="range" id="editor-scale-slider" min="10" max="500" value="100" step="1">
+                        <span id="editor-scale-value">100%</span>
                     </div>
                 </div>
 
@@ -2678,11 +2695,13 @@
         const DA14585_RXTX_SERVICE_UUID = '00001f10-0000-1000-8000-00805f9b34fb';
         const DA14585_LEGACY_SERVICE_UUID = '13187b10-eba9-a3ba-044e-83d3217d9a38';
         const DA14585_DFU_SERVICE_UUID = '0000221f-0000-1000-8000-00805f9b34fb';
+        const GAP_SERVICE_UUID = '00001800-0000-1000-8000-00805f9b34fb';
         const SUPPORTED_BLE_SERVICES = [
             NRF52_SERVICE_UUID,
             DA14585_RXTX_SERVICE_UUID,
             DA14585_LEGACY_SERVICE_UUID,
-            DA14585_DFU_SERVICE_UUID
+            DA14585_DFU_SERVICE_UUID,
+            GAP_SERVICE_UUID
         ];
         let deviceProtocol = null;
         let nrf52DisplayMode = 1;
@@ -2764,10 +2783,10 @@
                     await triggerEpdCmd('e100');
                     await delay(300);
                     await triggerEpdCmd('01');
+                    switchToTab('tab-image');
                 } else {
                     await triggerEpdCmd(mode === 2 ? 'e102' : 'e101');
                     await delay(300);
-                    await triggerEpdCmd('e2');
                 }
                 return;
             }
@@ -3006,20 +3025,35 @@
         async function setri(cmd) {
             addLog(`Lệnh: ${cmd}`)
             await rxTxSendCommand(hexToBytes(cmd));
-            await delay(300);
-            addLog(`Lệnh: e2`)
-            await rxTxSendCommand(hexToBytes('e2'))
         }
         async function triggerRxTxCmd(cmd) {
-            addLog(`Đang gửi lệnh: ${cmd}`)
+            addLog(`Lệnh: ${cmd}`)
             await rxTxSendCommand(hexToBytes(cmd));
         }
+        async function sendCustomCommand() {
+            const input = document.getElementById('custom-cmd-input');
+            if (!input) return;
+            let cmd = input.value.trim().replace(/\s+/g, '');
+            if (!cmd) {
+                addLog('Vui lòng nhập mã hex trước khi gửi.');
+                return;
+            }
+            if (cmd.length % 2 !== 0 || !/^[0-9A-Fa-f]+$/.test(cmd)) {
+                addLog('Mã hex không hợp lệ. Hãy nhập chuỗi hex chữ số đầy đủ.');
+                return;
+            }
+            try {
+                await triggerRxTxCmd(cmd);
+            } catch (error) {
+                addLog(`Lỗi gửi mã: ${error}`);
+            }
+        }
         async function triggerRxTxCmd2(cmd) {
-            addLog(`Đang gửi lệnh: ${cmd}`)
+            addLog(`Lệnh: ${cmd}`)
             await rxTxSendCommand2(hexToBytes(cmd));
         }
         async function triggerEpdCmd(cmd) {
-            addLog(`Đang gửi lệnh: ${cmd}`)
+            addLog(`Lệnh: ${cmd}`)
             await sendCommand(hexToBytes(cmd));
         }
         async function triggerEpdRed_lut(cmd) {
@@ -3101,7 +3135,12 @@
                 try {
                     document.getElementById("connectbutton").innerHTML = 'Đang quét...';
                     bleDevice = await navigator.bluetooth.requestDevice({
-                        acceptAllDevices: true,
+                        filters: [
+                            { services: [DA14585_RXTX_SERVICE_UUID] },
+                            { services: [DA14585_LEGACY_SERVICE_UUID] },
+                            { services: [DA14585_DFU_SERVICE_UUID] },
+                            { services: [NRF52_SERVICE_UUID] }
+                        ],
                         optionalServices: SUPPORTED_BLE_SERVICES
                     });
                     bleDevice.addEventListener('gattserverdisconnected', disconnect);
@@ -3305,6 +3344,37 @@
         }
         function setStatus(statusText) {
             document.getElementById("status").innerHTML = statusText;
+        }
+        async function checkDfuSupport() {
+            if (!bleDevice || !bleDevice.gatt.connected) {
+                addLog('Chưa kết nối thiết bị.');
+                return false;
+            }
+            try {
+                await gattServer.getPrimaryService(DA14585_DFU_SERVICE_UUID);
+                addLog('Thiết bị hỗ trợ DFU/OTA (dịch vụ DFU tìm thấy).');
+                return true;
+            } catch (error) {
+                addLog('Thiết bị không hỗ trợ DFU/OTA hiện tại: ' + error.message);
+                return false;
+            }
+        }
+        async function checkDeviceNameSupport() {
+            if (!bleDevice || !bleDevice.gatt.connected) {
+                addLog('Chưa kết nối thiết bị.');
+                return;
+            }
+            try {
+                const gapService = await gattServer.getPrimaryService('00001800-0000-1000-8000-00805f9b34fb');
+                const nameChar = await gapService.getCharacteristic('00002a00-0000-1000-8000-00805f9b34fb');
+                const props = nameChar.properties;
+                const value = await nameChar.readValue();
+                const currentName = new TextDecoder().decode(value);
+                addLog(`Device Name hiện tại: ${currentName}`);
+                addLog(`Device Name characteristic: read=${props.read}, write=${props.write}, writeWithoutResponse=${props.writeWithoutResponse}`);
+            } catch (error) {
+                addLog('Không thể kiểm tra Device Name GATT: ' + error.message);
+            }
         }
         function addLog(logTXT) {
             const today = new Date();
@@ -3914,6 +3984,9 @@
         const rotationInput = document.getElementById('rotation-input');
         const rotationValue = document.getElementById('rotation-value');
         const applyRotationBtn = document.getElementById('apply-rotation');
+        const editorScaleControls = document.getElementById('editor-scale-controls');
+        const editorScaleSlider = document.getElementById('editor-scale-slider');
+        const editorScaleValue = document.getElementById('editor-scale-value');
         const bgColorPicker = document.getElementById('bg-color-picker');
         const bgColorInput = document.getElementById('bg-color-input');
         const bgColorValue = document.getElementById('bg-color-value');
@@ -3949,6 +4022,7 @@
             nextIconId: 100,
             localImages: {}
         };
+        let selectedElementBaseDimensions = null;
         const builtInTemplates = {
             bg: {
                 none: {
@@ -4425,6 +4499,7 @@
             }
             state.elements.push(element);
             state.selectedElementIndex = state.elements.length - 1;
+            resetEditorScaleSlider(element);
             renderElements();
             if (type === 'text') {
                 textControls.style.display = 'block';
@@ -4484,6 +4559,66 @@
                     heightInput.value = element.height;
                     break;
             }
+        }
+        function resetEditorScaleSlider(element) {
+            if (!editorScaleControls || !editorScaleSlider || !editorScaleValue) return;
+            if (!element) {
+                selectedElementBaseDimensions = null;
+                editorScaleSlider.disabled = true;
+                editorScaleValue.textContent = 'Chọn phần tử';
+                editorScaleSlider.value = 100;
+                editorScaleControls.style.display = 'block';
+                return;
+            }
+            selectedElementBaseDimensions = {
+                type: element.type,
+                width: element.width || 0,
+                height: element.height || 0,
+                radius: element.radius || 0,
+                outerRadius: element.outerRadius || 0,
+                innerRadius: element.innerRadius || 0,
+                size: element.size || 0,
+                length: element.type === 'line' ? Math.sqrt(Math.pow(element.x2 - element.x1, 2) + Math.pow(element.y2 - element.y1, 2)) : 0,
+                thickness: element.thickness || 0
+            };
+            editorScaleSlider.disabled = false;
+            editorScaleSlider.value = 100;
+            editorScaleValue.textContent = '100%';
+            editorScaleControls.style.display = 'block';
+        }
+        function updateSelectedElementScale(value) {
+            if (state.selectedElementIndex === -1 || !selectedElementBaseDimensions) return;
+            const element = state.elements[state.selectedElementIndex];
+            if (!element) return;
+            const scale = value / 100;
+            editorScaleValue.textContent = `${Math.round(value)}%`;
+            switch (element.type) {
+                case 'rect':
+                case 'triangle':
+                case 'image':
+                    element.width = Math.max(1, Math.round(selectedElementBaseDimensions.width * scale));
+                    element.height = Math.max(1, Math.round(selectedElementBaseDimensions.height * scale));
+                    break;
+                case 'circle':
+                    element.radius = Math.max(1, Math.round(selectedElementBaseDimensions.radius * scale));
+                    break;
+                case 'line':
+                    const angle = Math.atan2(element.y2 - element.y1, element.x2 - element.x1);
+                    const newLength = Math.max(1, Math.round(selectedElementBaseDimensions.length * scale));
+                    element.x2 = element.x1 + newLength * Math.cos(angle);
+                    element.y2 = element.y1 + newLength * Math.sin(angle);
+                    element.thickness = Math.max(1, Math.round(selectedElementBaseDimensions.thickness * scale));
+                    break;
+                case 'star':
+                    element.outerRadius = Math.max(1, Math.round(selectedElementBaseDimensions.outerRadius * scale));
+                    element.innerRadius = Math.max(1, Math.round(selectedElementBaseDimensions.innerRadius * scale));
+                    break;
+                case 'text':
+                    element.size = Math.max(1, Math.round(selectedElementBaseDimensions.size * scale));
+                    break;
+            }
+            updateSizeInputsForElement(element);
+            renderElements();
         }
         function updateRotationInputsForElement(element) {
             if (!element) return;
@@ -5243,11 +5378,13 @@
                             updateSizeInputsForElement(element);
                         }
                         updateRotationInputsForElement(element);
+                        resetEditorScaleSlider(element);
                         renderElements();
                         return;
                     }
                 }
                 state.selectedElementIndex = -1;
+                resetEditorScaleSlider(null);
                 textControls.style.display = 'none';
                 rotateControls.style.display = 'none';
                 sizeControls.classList.remove('show');
@@ -5271,6 +5408,9 @@
                 rotationValue.textContent = `${rotationInput.value} deg`;
                 applyRotation();
             });
+            if (editorScaleSlider) {
+                editorScaleSlider.addEventListener('input', (e) => updateSelectedElementScale(e.target.value));
+            }
             deleteElementBtn.addEventListener('click', deleteSelectedElement);
             duplicateElementBtn.addEventListener('click', duplicateSelectedElement);
             bringToFrontBtn.addEventListener('click', bringToFront);
